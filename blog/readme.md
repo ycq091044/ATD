@@ -118,4 +118,4 @@ Let us look at the performance of our prosed ATD on four human signal datasets: 
 
 ---
 
-We have open-sourced our code in github.com/ycq091044/ATD.
+We have open-sourced our code in https://github.com/ycq091044/ATD.
