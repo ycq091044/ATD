@@ -1,4 +1,4 @@
-# Self-supervised Tensor Decomposition for Better Downstream Classification
+# Self-supervised Tensor Decomposition
 
 This blog is written to introduce our recent NeurIPS 2022 paper [1]: **ATD: Augmenting CP Tensor Decomposition by Self Supervision.** 
 
