@@ -2,7 +2,12 @@
 
 This blog is written to introduce our recent NeurIPS 2022 paper [1]: **ATD: Augmenting CP Tensor Decomposition by Self Supervision.** 
 
-The paper proposes a new canonical polyadic tensor decomposition (CPD) approach empowered by self-supervised learning (SSL), which generates unsupervised embeddings that can give better downstream classification performance.
+The paper proposes a new canonical polyadic tensor decomposition (CPD) approach empowered by self-supervised learning (SSL), which generates unsupervised embeddings (Step 1) that can give better downstream classification performance (Step 2).
+
+<img src="fig/intro.png"
+     alt="An interesting into to the problem"
+     style="float: left; margin-right: 10px; " 
+     width="600"/>
 
 ---
 
@@ -11,7 +16,7 @@ Tensor decomposition can be used as a dimension reduction tool for downstream cl
 
 **Contribution 1:** This paper solves the problem of "how to learn better tensor decomposition subspaces and generate predictive low-rank features for downstream classification". We consider injecting class-preserving perturbations by tensor augmentation and then decomposing the tensor and the perturbed tensor together with the self-supervised loss!
 
-<img src="framework.png"
+<img src="fig/framework.png"
      alt="ATD Framework"
      style="float: left; margin-right: 10px; " 
      width="600"/>
@@ -20,7 +25,7 @@ Tensor decomposition can be used as a dimension reduction tool for downstream cl
 
 Our method gives good results (with much fewer parameters) on four human signal datasets, compared to contrastive learning methods, autoencoders, and other tensor decomposition methods.
 
-<img src="performance.png"
+<img src="fig/performance.png"
      alt="Experimental Performance"
      style="float: left; margin-right: 10px; " 
      width="800"/>
@@ -43,7 +48,7 @@ Canonical polyadic tensor decomposition (CPD) [2] is commonly used to learn the 
 
 **Example:** we use multi-channel EEG signals for example. Assume each EEG signal has two channels (two blue time series in one slice). Now, we stack $N$ data samples (denoted as $T_1,T_2,...$) together and make it a 3-dimensional tensor $\mathcal{T}$: $N~samples\times channels \times timesteps$.
 
-<img src="cpd.png"
+<img src="fig/cpd.png"
      alt="CP Decomposition"
      style="float: left; margin-right: 10px; " 
      width="800"/>
@@ -65,7 +70,7 @@ Self-supervised contrastive learning (SSL) [3][4] has become popular in the rece
 
 **Example:** For the same set of unlabeled EEG signals, we stack them as a data batch and feed them into the typical SSL pipeline. During the learning process, the SSL models will align the embeddings of perturbed samples from the same data and disalign the embeddings of perturbed samples from different data.
 
-<img src="ssl.png"
+<img src="fig/ssl.png"
      alt="Self-supervised Learning"
      style="float: left; margin-right: 10px; " 
      width="800"/>
@@ -84,7 +89,7 @@ Inspired by this, **the paper “ATD: Augmenting CP Tensor Decomposition by Self
 - **Step 1: data augmentation:** We apply data augmentations to each tensor slice (such as bandpass filtering, jittering, coordinate rotation, see our paper [1]);
 - **Step 2: tensor decomposition:** We stack the tensor $\mathcal{T}$ and the perturbed tensor $\mathcal{T}'$ together and apply tensor decomposition algorithm (here we use CPD). The loss functions are standard regularizer and the fitness loss as well as the self-supervised loss.  
 
-<img src="framework.png"
+<img src="fig/framework.png"
      alt="ATD Framework"
      style="float: left; margin-right: 10px; " 
      width="600"/>
@@ -102,7 +107,7 @@ The new self-supervised loss form is still non-convex with respect to the low-ra
 ## 3. Experiments
 Let us look at the performance of our prosed ATD on four human signal datasets: (i) an EEG dataset Sleep-EDF; (ii) an ECG dataset PTB-XL; (iii) an human activity recognition (HAR) dataset; and (iv) a proprietary EEG dataset from Massachusetts General Hospital (MGH), while the first three are open. Their statistics are shown below.
 
-<img src="statistics.png"
+<img src="fig/statistics.png"
      alt="Data Statistics"
      style="float: left; margin-right: 10px; " 
      width="800"/>
@@ -112,7 +117,7 @@ Let us look at the performance of our prosed ATD on four human signal datasets: 
 
 The overall comparison with baselines models are given below, ATD shows comparable or better performance over the baselines. Basically, we can conclude that it is useful to consider both fitness and alignment as part of the objective. The table also shows that tensor based models require fewer parameters, i.e., less than 5% of parameters compared to deep learning models.
 
-<img src="performance.png"
+<img src="fig/performance.png"
      alt="Performance"
      style="float: left; margin-right: 10px; " 
      width="800"/>
@@ -121,7 +126,7 @@ The overall comparison with baselines models are given below, ATD shows comparab
 
 On the MGH dataset, we show the effect of varying the amount of training data below while fixing the test set. As a reference, we include an end-to-end supervised CNN model, called Reference CNN. To prevent overlapping, we separate the comparison figure into two sub-figures: the left compares with self-supervised and auto-encoder baselines and the right one compares with tensor baselines and the reference model. We find that all unsupervised models outperform the supervised reference CNN model in scenarios with fewer training samples. With more training data, the performance of all models get improved, especially the reference CNN model.
 
-<img src="variation.png"
+<img src="fig/variation.png"
      alt="Fewer Training Samples"
      style="float: left; margin-right: 10px; " 
      width="600"/>
